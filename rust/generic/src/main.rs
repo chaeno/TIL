@@ -20,15 +20,25 @@ fn largest_char(list: &[char]) -> char {
 
 // binary operation `>` cannot be applied to type `T`
 // std::cmp::PartialOrd 트레이트 구현 요구됨
-// fn largest_generic<T>(list: &[T]) -> T {
-//     let mut largest = list[0];
-//     for &item in list {
-//         if item > largest {
-//             largest = item;
-//         }
-//     }
-//     largest
-// }
+fn largest_generic<T: PartialOrd + Copy>(list: &[T]) -> T {
+    let mut largest = list[0];
+    for &item in list {
+        if item > largest {
+            largest = item;
+        }
+    }
+    largest
+}
+
+fn largest_generic_without_copy_trait<T: PartialOrd>(list: &[T]) -> &T {
+    let mut largest_index = 0;
+    for i in 0..list.len() {
+        if list[i] > list[largest_index] {
+            largest_index = i;
+        }
+    }
+    &list[largest_index]
+}
 
 struct Point<T> {
     x: T,
@@ -106,4 +116,14 @@ fn main() {
     let char_list = vec!['y', 'm', 'a', 'q'];
     let result = largest_char(&char_list);
     println!("가장 큰 문자: {}", result);
+
+    let result = largest_generic(&number_list);
+    println!("*가장 큰 숫자: {}", result);
+    let result = largest_generic(&char_list);
+    println!("*가장 큰 문자: {}", result);
+
+    let result = largest_generic_without_copy_trait(&number_list);
+    println!("**가장 큰 숫자: {}", result);
+    let result = largest_generic_without_copy_trait(&char_list);
+    println!("**가장 큰 문자: {}", result);
 }
