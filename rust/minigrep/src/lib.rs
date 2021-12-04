@@ -10,12 +10,20 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("필요한 인수가 지정되지 않았습니다.");
-        }
-        let query = args[1].clone();
-        let filename = args[2].clone();
+    pub fn new(mut args: std::env::Args) -> Result<Config, &'static str> {
+        // 첫번째 인자는 실행 바이너리 path를 나타내므로 skip
+        args.next();
+
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("검색어를 지정해야 합니다."),
+        };
+
+        let filename = match args.next() {
+            Some(arg) => arg,
+            None => return Err("파일명을 지정해야합니다."),
+        };
+
         let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
 
         Ok(Config { query, filename, case_sensitive })
@@ -42,15 +50,9 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 }
 
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut results = Vec::new();
-
-    for line in contents.lines() {
-        if line.contains(query) {
-            results.push(line);
-        }
-    }
-
-    results
+    contents.lines()
+        .filter(|line| line.contains(query))
+        .collect()
 }
 
 pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
