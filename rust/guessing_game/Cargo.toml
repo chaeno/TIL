@@ -1,6 +1,9 @@
 [package]
 name = "guessing_game"
 version = "0.1.0"
+authors = ["chaeno <you@example.com>"]
+description = "컴퓨터가 선택한 숫자를 맞히는 게임"
+license = "MIT OR Apach-2.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
