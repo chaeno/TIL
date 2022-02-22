@@ -3,7 +3,6 @@ package ch03.ex6_2_LocalFunctionsAndExtensions1
 class User(val id: Int, val name: String, val address: String)
 
 fun saveUser(user: User) {
-
     fun validate(user: User,
                  value: String,
                  fieldName: String) {
