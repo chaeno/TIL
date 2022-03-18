@@ -1,0 +1,2 @@
+package ch08.ex1_6_2_RemovingDuplicationThroughLambdas1
+
