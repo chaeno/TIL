@@ -6,4 +6,4 @@ fun <T : Number> oneHalf(value: T): Double {
 
 fun main(args: Array<String>) {
     println(oneHalf(3))
-}ㅎ
+}
